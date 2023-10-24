@@ -7,6 +7,6 @@ export class UsersController {
 
     @Get(':id')
     findById(@Param('id') id: string): string {
-        return `this is a sample user ` + id
+        return `this is a sample user testing ` + id
     }
 }
