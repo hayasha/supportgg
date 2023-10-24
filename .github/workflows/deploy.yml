@@ -25,9 +25,8 @@ jobs:
           ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_PUBLIC_IP }} "
             cd supportgg
             git pull || exit 1
-            nvm use 21
             npm install || exit 1
-            num run build || exit 1
-            sudo npm run start & npx wait-on http://localhost
+            npm run build || exit 1
+            sudo pm2 start dist/main.js
             exit
           "
