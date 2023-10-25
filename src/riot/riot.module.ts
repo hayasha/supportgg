@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {Logger, Module} from '@nestjs/common';
 import { RiotService } from './riot.service';
 import {HttpModule} from "@nestjs/axios";
 
