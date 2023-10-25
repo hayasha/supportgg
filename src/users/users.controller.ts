@@ -1,12 +1,12 @@
 import {Controller, Get, Param} from '@nestjs/common';
-import {UsersService} from "./users.service";
+import {RiotService} from "../riot/riot.service";
 
 @Controller('users')
 export class UsersController {
-    constructor(private usersService: UsersService) {}
+    constructor(private readonly riotService: RiotService) {}
 
-    @Get(':id')
-    findById(@Param('id') id: string): string {
-        return `this is a sample user testing ` + id
+    @Get(':name')
+    findById(@Param('name') name: string): any {
+        return this.riotService.findSummonerByName(name)
     }
 }
