@@ -17,7 +17,7 @@ export class RiotService {
         return this.get(this.summonerBynameUrl + name)
             .pipe(map(summonerV4 => new Summoner(
                 summonerV4["puuid"],
-                summonerV4["summonerId"],
+                summonerV4["id"],
                 summonerV4["name"],
                 summonerV4["profileIconId"],
                 summonerV4["summonerLevel"]
