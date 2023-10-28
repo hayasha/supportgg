@@ -9,7 +9,7 @@ export class RiotService {
     private readonly logger = new Logger(RiotService.name)
 
     private riotApiKey: string = <string> this.configService.get<string>('RIOT_API_KEY')
-    private summonerBynameUrl: string = <string> this.configService.get<string>('SUMMONER_BYNAME_URL')
+    private summonerBynameUrl: string = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
 
     constructor(private readonly httpService: HttpService, private readonly configService: ConfigService) {}
 
