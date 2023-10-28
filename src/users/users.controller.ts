@@ -6,7 +6,7 @@ export class UsersController {
     constructor(private readonly riotService: RiotService) {}
 
     @Get(':name')
-    findById(@Param('name') name: string): any {
+    public findById(@Param('name') name: string): any {
         return this.riotService.findSummonerByName(name)
     }
 }

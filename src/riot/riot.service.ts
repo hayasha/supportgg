@@ -14,10 +14,10 @@ export class RiotService {
     constructor(private readonly httpService: HttpService, private readonly configService: ConfigService) {}
 
     public findSummonerByName(name: string) {
-        this.logger.log('testing logging ...')
         return this.get(this.summonerBynameUrl + name)
             .pipe(map(summonerV4 => new Summoner(
                 summonerV4["puuid"],
+                summonerV4["summonerId"],
                 summonerV4["name"],
                 summonerV4["profileIconId"],
                 summonerV4["summonerLevel"]

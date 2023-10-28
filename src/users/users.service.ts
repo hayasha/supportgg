@@ -1,8 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import {RiotService} from "../riot/riot.service";
+import {Injectable} from '@nestjs/common';
 
 
 @Injectable()
-export class UsersService {
-
-}
+export class UsersService {}
