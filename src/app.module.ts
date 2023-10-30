@@ -1,19 +1,25 @@
 import { Module } from '@nestjs/common'
 import { UsersModule } from './users/users.module'
 import {ConfigModule} from "@nestjs/config";
-import { RiotModule } from './riot/riot.module';
-import {HttpModule} from "@nestjs/axios";
-import { RoomsController } from './rooms/rooms.controller';
-import { RoomsModule } from './rooms/rooms.module';
+import {DataSource} from "typeorm";
+import { ParticipantsModule } from './participants/participants.module';
+import { GameModule } from './game/game.module';
+import {RoomModule} from "./room/room.module";
+import {DatabaseModule} from "./database/database.module";
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true
         }),
+        DatabaseModule,
         UsersModule,
-        RoomsModule,
+        RoomModule,
+        ParticipantsModule,
+        GameModule
     ],
     controllers: []
 })
-export class AppModule {}
+export class AppModule {
+    constructor() {}
+}
