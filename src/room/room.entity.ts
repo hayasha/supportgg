@@ -1,4 +1,5 @@
-import {Column, Entity, Generated, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Game} from "../game/game.entity";
 
 @Entity()
 export class Room {
@@ -14,7 +15,7 @@ export class Room {
     @Column()
     hostId: string
 
-    @Column()
+    @Column({ unique: true })
     @Generated("uuid")
     entryCode: string
 
@@ -23,6 +24,9 @@ export class Room {
 
     @Column({ default: false })
     isDeleted: boolean
+
+    @OneToMany(() => Game, game => game.room)
+    games: Game[]
 
     constructor(hostName: string, hostPuuid: string, hostId: string, password: string) {
         this.hostName = hostName

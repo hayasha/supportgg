@@ -1,4 +1,5 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Game} from "../game/game.entity";
 
 @Entity()
 export class Participant {
@@ -12,11 +13,31 @@ export class Participant {
     summonerId: string
 
     @Column()
+    summonerPuuid: string
+
+    @Column()
+    summonerName: string
+
+    @Column()
+    teamId: string
+
+    @Column({ default: false })
     ionianBoots: boolean
 
-    @Column()
+    @Column({ nullable: true })
     spell1: number
 
-    @Column()
+    @Column({ nullable: true })
     spell2: number
+
+    @ManyToOne(() => Game, game => game.participants)
+    game: Game
+
+    constructor(gameId: number, summonerId: string, summonerName: string, summonerPuuid: string, teamId: string) {
+        this.gameId = gameId
+        this.summonerId = summonerId
+        this.summonerName = summonerName
+        this.summonerPuuid = summonerPuuid
+        this.teamId = teamId
+    }
 }

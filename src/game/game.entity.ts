@@ -1,5 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Participant} from "../participants/participant.entity";
+import {Room} from "../room/room.entity";
 
 @Entity()
 export class Game {
@@ -9,9 +10,20 @@ export class Game {
     @Column()
     roomId: number
 
-    // @Column()
-    // participants: Participant[]
-
     @Column()
+    gameRiotId: string
+
+    @Column({ default: false })
     isDeleted: boolean
+
+    @ManyToOne(() => Room, room => room.games)
+    room: Room;
+
+    @OneToMany(() => Participant, participant => participant.game)
+    participants: Participant[]
+
+    constructor(roomId: number, gameRiotId: string) {
+        this.roomId = roomId
+        this.gameRiotId = gameRiotId
+    }
 }

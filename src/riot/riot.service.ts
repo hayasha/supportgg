@@ -4,6 +4,7 @@ import {ConfigService} from "@nestjs/config";
 import {catchError, map} from "rxjs";
 import {Summoner} from "./Entities/Summoner";
 import {AxiosError} from "axios";
+import {Game} from "../game/game.entity";
 
 @Injectable()
 export class RiotService {
