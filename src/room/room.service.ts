@@ -36,7 +36,7 @@ export class RoomService {
 
         const hostId: string = room.hostId
         const currentGame = await firstValueFrom(this.riotService.findCurrentGame(hostId))
-
+        console.log(currentGame.participants[0].perks)
         // Delete Previous Games
         for (const game of room.games) {
             if (game.gameRiotId != currentGame.gameId && !game.isDeleted) {
@@ -52,16 +52,23 @@ export class RoomService {
                 = await this.gameRepository.findOneBy({ gameRiotId: currentGame.gameId, roomId: room.id })
 
             if (!isGameExist) {
+                // Link current game to the room
                 const game: Game = new Game(room.id, currentGame.gameId)
                 await this.gameRepository.save(game)
 
+                // Link participants to the current game
                 for (const participant of currentGame["participants"]) {
                     const player: Participant = new Participant(
                         game.id,
                         participant.summonerId,
                         participant.summonerName,
                         participant.puuid,
-                        participant.teamId
+                        participant.championId,
+                        participant.profileIconId,
+                        participant.teamId,
+                        participant.spell1Id,
+                        participant.spell2Id,
+                        participant.perks.perkIds
                     )
                     await this.participantRepository.save(player)
                 }
