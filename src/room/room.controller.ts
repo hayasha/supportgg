@@ -38,6 +38,7 @@ export class RoomController {
 
     @Get(':entryCode')
     public async detail(@Param('entryCode') entryCode: string) {
-        return await this.roomService.detail(entryCode)
+        const room = await this.roomService.detail(entryCode)
+        return room || "No Room Found"
     }
 }
