@@ -3,7 +3,7 @@ name: supportgg_deploy
 on:
   push:
     branches:
-      - master_disabled
+      - master
 
 jobs:
   deploy:
@@ -27,7 +27,9 @@ jobs:
             git reset --hard || exit 1
             git pull || exit 1
             npm install || exit 1
+            pm2 stop 0 || exit 1
+            pm2 delete 0 || exit 1
             npm run build || exit 1
-            pm2 restart 0
+            pm2 start dist/main.js || exit 1
             exit
           "
