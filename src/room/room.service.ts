@@ -45,7 +45,25 @@ export class RoomService {
         }
 
         const hostId: string = room.hostId
-        const currentGame = await firstValueFrom(this.riotService.findCurrentGame(hostId))
+        let currentGame;
+        try {
+            currentGame = await firstValueFrom(this.riotService.findCurrentGame(hostId))
+        }
+        catch {
+            // Delete all previous games if there is no game for the host
+            for (const game of room.games) {
+                game.isDeleted = true
+                await this.gameRepository.save(game)
+            }
+
+            return await this.roomRepository
+                .createQueryBuilder('room')
+                .select(['room.id', 'room.hostName', 'room.hostPuuid', 'room.hostId', 'room.entryCode', 'room.isDeleted'])
+                .leftJoinAndSelect('room.games', 'game', 'game.isDeleted = false')
+                .leftJoinAndSelect('game.participants', 'participants')
+                .where('room.id = :id', { id: room.id })
+                .getOne()
+        }
 
         // Delete Previous Games
         for (const game of room.games) {
