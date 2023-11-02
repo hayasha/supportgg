@@ -93,9 +93,12 @@ export class RoomService {
             await queryRunner.release()
         }
 
-        return await this.gameRepository.findOne({
-            where: { roomId: room.id, isDeleted: false },
-            relations: { participants: true }
-        })
+        return await this.roomRepository
+            .createQueryBuilder('room')
+            .select(['room.id', 'room.hostName', 'room.hostPuuid', 'room.hostId', 'room.entryCode', 'room.isDeleted'])
+            .leftJoinAndSelect('room.games', 'game', 'game.isDeleted = false')
+            .leftJoinAndSelect('game.participants', 'participants')
+            .where('room.id = :id', { id: room.id })
+            .getOne()
     }
 }
