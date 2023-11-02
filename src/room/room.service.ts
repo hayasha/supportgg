@@ -23,6 +23,15 @@ export class RoomService {
         return room.entryCode
     }
 
+    async detail(entryCode: string) {
+        return await this.roomRepository
+            .createQueryBuilder('room')
+            .leftJoinAndSelect('room.games', 'game', 'game.isDeleted = false')
+            .leftJoinAndSelect('game.participants', 'participants')
+            .where('room.entryCode = :entryCode', { entryCode })
+            .getOne()
+    }
+
     async gameOn(entryCode: string) {
         const room: Room|null = await this.roomRepository.findOne({
             where: { entryCode },
@@ -36,7 +45,7 @@ export class RoomService {
 
         const hostId: string = room.hostId
         const currentGame = await firstValueFrom(this.riotService.findCurrentGame(hostId))
-        console.log(currentGame.participants[0].perks)
+
         // Delete Previous Games
         for (const game of room.games) {
             if (game.gameRiotId != currentGame.gameId && !game.isDeleted) {

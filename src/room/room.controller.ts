@@ -31,13 +31,13 @@ export class RoomController {
         }
     }
 
-    @Post(':entryCode')
+    @Post(':entryCode/game')
     public async gameOn(@Param('entryCode') entryCode: string) {
         return await this.roomService.gameOn(entryCode)
     }
 
     @Get(':entryCode')
     public async detail(@Param('entryCode') entryCode: string) {
-
+        return await this.roomService.detail(entryCode)
     }
 }
