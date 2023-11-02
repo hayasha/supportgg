@@ -26,6 +26,7 @@ export class RoomService {
     async detail(entryCode: string) {
         return await this.roomRepository
             .createQueryBuilder('room')
+            .select(['room.id', 'room.hostName', 'room.hostPuuid', 'room.hostId', 'room.entryCode', 'room.isDeleted'])
             .leftJoinAndSelect('room.games', 'game', 'game.isDeleted = false')
             .leftJoinAndSelect('game.participants', 'participants')
             .where('room.entryCode = :entryCode', { entryCode })
