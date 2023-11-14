@@ -1,0 +1,10 @@
+config:
+  target: http://localhost:3000
+  phases:
+    - duration: 5
+      arrivalRate: 1000
+
+scenarios:
+  - flow:
+    - get:
+        url: "/rooms/c830e80b-dae4-4cad-8e89-58188d136564"
